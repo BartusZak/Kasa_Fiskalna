@@ -54,22 +54,22 @@ E - zakoncz dzialanie programu.");
                     case ConsoleKey.K:
                         {
                         // zakupy.Select(item => (Produkt)item.Clone()).ToList(); <-- kopiuje cala liste
-                        if (zakupy != null)
+                        if (zakupy.Any())
                         {
                             zakupy.Add((Produkt)zakupy.Last().Clone());
                             Console.WriteLine("Skopiowano {0}", zakupy.Last().nazwa);
                         }
                         else
                         {
-
+                            Console.WriteLine("Nie ma czego kopiowac...");
                         }
                         Thread.Sleep(2000);
                             break;
                         }
                     case ConsoleKey.Z:
                         {
-                        int lp=1;
-                        Console.WriteLine("|{0,-10}|{1,-10}|{2,-10}|{3,-10}|{4,-10}|", "Lp.","Nazwa", "Cena jedn.", "Ilosc", "Lacznie");
+                        int lp=0;
+                        Console.WriteLine("|{0,-6}|{1,-10}|{2,-10}|{3,-10}|{4,-10}|", "Lp.","Nazwa", "Cena jedn.", "Ilosc", "Lacznie");
                         foreach (var e in zakupy)
                             {                                             
                             Console.WriteLine("|{0,-6}|{1,-10}|{2,-10}|{3,-10}|{4,-10}|", lp++,e.nazwa, e.cenaJednostkowa, e.ilosc, e.ilosc * e.cenaJednostkowa);                        
@@ -86,7 +86,51 @@ E - zakoncz dzialanie programu.");
                     Console.WriteLine("Do zapłaty: {0} zł", suma);
                     Pauza();
                     break;
-                
+                case ConsoleKey.X:
+                    {
+                        Console.WriteLine("Podaj Lp. przedmiotu do usunięcia:");
+                        int usun = int.Parse(Console.ReadLine());
+
+                        Console.WriteLine("Usuwam.");
+                        zakupy.RemoveAt(usun);
+                        Thread.Sleep(2000);
+                        break;
+                    }
+                case ConsoleKey.W:
+                    { 
+                    string Do_pliku = String.Format("|{0,-6}|{1,-10}|{2,-10}|{3,-10}|{4,-10}|", "Lp.","Nazwa", "Cena jedn.", "Ilosc", "Lacznie");
+                    string Do_pliku2 = "";
+                    string Do_pliku3 = "";
+                    int lp_plik=0;
+                    double suma_plik = 0.0;
+
+                    foreach(var e in zakupy)
+                    {
+                        suma_plik += e.ilosc * e.cenaJednostkowa;
+                        Do_pliku2 += String.Format("|{0,-6}|{1,-10}|{2,-10}|{3,-10}|{4,-10}|", lp_plik++,e.nazwa, e.cenaJednostkowa, e.ilosc, e.ilosc* e.cenaJednostkowa);
+                        Do_pliku2 += System.Environment.NewLine;
+                    }
+
+                    Do_pliku3 += String.Format("Do zapłaty: {0} zł", suma_plik);
+     
+                    File.CreateText(DateTime.Now.ToString("dd MM yyyy HH mm ss") + (".txt")).Close();                   
+                    File.WriteAllText(DateTime.Now.ToString("dd MM yyyy HH mm ss")+(".txt"), Do_pliku + System.Environment.NewLine + Do_pliku2 + System.Environment.NewLine + Do_pliku3);
+
+                    Console.WriteLine("Zapisano koszyk w pliku tekstowym!");
+                    Thread.Sleep(2000);
+                        Console.WriteLine("Czyszczę koszyk..");
+                        zakupy.Clear();
+                        Thread.Sleep(2000);
+                        break;
+                    }
+                case ConsoleKey.N:
+                    {
+                        Console.WriteLine("Czyszcze koszyk..");
+                        zakupy.Clear();
+                        Thread.Sleep(2000);
+                        break;
+                    }
+
             }
         }
     }
