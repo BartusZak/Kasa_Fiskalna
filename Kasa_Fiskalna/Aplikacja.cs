@@ -52,25 +52,40 @@ E - zakoncz dzialanie programu.");
                         break;
                         }
                     case ConsoleKey.K:
-                        {                   
+                        {
                         // zakupy.Select(item => (Produkt)item.Clone()).ToList(); <-- kopiuje cala liste
+                        if (zakupy != null)
+                        {
+                            zakupy.Add((Produkt)zakupy.Last().Clone());
+                            Console.WriteLine("Skopiowano {0}", zakupy.Last().nazwa);
+                        }
+                        else
+                        {
 
-                        zakupy.Add((Produkt)zakupy.Last().Clone());
-                        Console.WriteLine("Skopiowano {0}", zakupy.Last().nazwa);
+                        }
                         Thread.Sleep(2000);
                             break;
                         }
                     case ConsoleKey.Z:
                         {
-                        Console.WriteLine("|{0,-10}|{1,-10}|{2,-10}|{3,-10}|", "Nazwa", "Cena jedn.", "Ilosc", "Lacznie");
+                        int lp=1;
+                        Console.WriteLine("|{0,-10}|{1,-10}|{2,-10}|{3,-10}|{4,-10}|", "Lp.","Nazwa", "Cena jedn.", "Ilosc", "Lacznie");
                         foreach (var e in zakupy)
                             {                                             
-                            Console.WriteLine("|{0,-10}|{1,-10}|{2,-10}|{3,-10}|",e.nazwa, e.cenaJednostkowa, e.ilosc, e.ilosc * e.cenaJednostkowa);                        
+                            Console.WriteLine("|{0,-6}|{1,-10}|{2,-10}|{3,-10}|{4,-10}|", lp++,e.nazwa, e.cenaJednostkowa, e.ilosc, e.ilosc * e.cenaJednostkowa);                        
                             }
-                        Console.WriteLine("\nNacisnij dowolny przycisk, aby wrocic do menu...");
-                        Console.ReadKey();
+                        Pauza();
                         break;
                         }
+                case ConsoleKey.S:
+                    double suma = 0.0;
+                    foreach (var e in zakupy)
+                    {
+                        suma += e.ilosc * e.cenaJednostkowa; 
+                    }
+                    Console.WriteLine("Do zapłaty: {0} zł", suma);
+                    Pauza();
+                    break;
                 
             }
         }

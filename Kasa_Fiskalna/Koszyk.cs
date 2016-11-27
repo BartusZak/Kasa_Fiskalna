@@ -10,6 +10,12 @@ namespace Kasa_Fiskalna
     { 
         public List<Produkt> zakupy = new List<Produkt>();
              
+        protected internal void Pauza()
+        {
+            Console.WriteLine("\nNacisnij dowolny przycisk, aby wrocic do menu...");
+            Console.ReadKey();
+        }
+     
         
       
     }
